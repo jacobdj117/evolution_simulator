@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <vector>
 
 #include "types.h"
@@ -15,12 +16,15 @@ private:
 
     uint16_t id_;
     std::vector<point> visable_food_;
+    point closest_visable_food_;
+    std::optional<point> last_food_eaten_;
 
 public:
     Creature(uint16_t init_id, std::vector<point> init_food);
     ~Creature() = default;
 
     void update_visable_food_(std::vector<point> all_food);
+    std::optional<point> last_food_eaten();
     void update_location();
 
     uint16_t id()         { return id_; }

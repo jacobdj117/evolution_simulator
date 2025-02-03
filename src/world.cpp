@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <iostream>
+#include <optional>
 
 #include "world.h"
 
@@ -13,6 +15,14 @@ void evo_sim::World::update_state() {
     for (Creature& creature : creatures_) {
         creature.update_visable_food_(food_locations_);
         creature.update_location();
+
+        std::optional<point> eaten_food = creature.last_food_eaten();
+        if (eaten_food == std::nullopt) { continue; }
+
+        food_locations_.erase(
+            std::remove(food_locations_.begin(), food_locations_.end(), eaten_food),
+            food_locations_.end()
+        );
     }
 }
 

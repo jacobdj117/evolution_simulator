@@ -7,6 +7,8 @@ evo_sim::Creature::Creature(uint16_t init_id, std::vector<point> init_food)
     : id_ {init_id}
     , current_location_ {0, 0}
     , next_location_ {0, 0}
+    , closest_visable_food_ {UINT16_MAX, UINT16_MAX}
+    , last_food_eaten_ {std::nullopt}
 {
     update_visable_food_(init_food);
 }
@@ -28,12 +30,21 @@ void evo_sim::Creature::update_visable_food_(std::vector<point> all_food) {
         // Track closest food
         if (distance > distance_to_closest_food) { continue; }
         distance_to_closest_food = distance;
-        next_location_.first = food.first;
-        next_location_.second = food.second;
+        next_location_ = food;
+        closest_visable_food_ = food;
     }
 }
 
 void evo_sim::Creature::update_location() {
-    current_location_.first = next_location_.first;
-    current_location_.second = next_location_.second;
+    current_location_ = next_location_;
+    if (current_location_ == closest_visable_food_) {
+        last_food_eaten_ = closest_visable_food_;
+    }
+}
+
+std::optional<evo_sim::point> evo_sim::Creature::last_food_eaten() {
+    if (!last_food_eaten_.has_value()) { return std::nullopt; }
+    evo_sim::point food = last_food_eaten_.value();
+    last_food_eaten_ = std::nullopt;
+    return food;
 }
