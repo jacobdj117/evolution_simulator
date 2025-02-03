@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "creature.h"
 #include "types.h"
 
 namespace evo_sim {
@@ -11,11 +12,15 @@ private:
     static constexpr uint16_t width_ = 20;
     static constexpr uint16_t height_ = 20;
 
-    std::vector<food> food_locations_;
+    std::vector<Creature> creatures_;
+    std::vector<point> food_locations_;
 
 public:
 
-    std::vector<food> get_food() { return food_locations_; }
+    World();
+    ~World() = default;
+
+    std::vector<point> get_food_locations() { return food_locations_; }
 
 }; // End class World
 
