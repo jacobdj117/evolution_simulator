@@ -10,8 +10,9 @@ evo_sim::World::World() {
 }
 
 void evo_sim::World::update_state() {
-    for (Creature creature : creatures_) {
+    for (Creature& creature : creatures_) {
         creature.update_visable_food_(food_locations_);
+        creature.update_location();
     }
 }
 

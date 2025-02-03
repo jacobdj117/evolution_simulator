@@ -21,6 +21,7 @@ public:
     ~Creature() = default;
 
     void update_visable_food_(std::vector<point> all_food);
+    void update_location();
 
     uint16_t id()         { return id_; }
     point location()      { return current_location_; }
