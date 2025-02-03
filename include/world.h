@@ -20,7 +20,7 @@ public:
     World();
     ~World() = default;
 
-    std::vector<point> get_food_locations() { return food_locations_; }
+    void print_creature_stats();
 
 }; // End class World
 
