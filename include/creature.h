@@ -22,8 +22,9 @@ public:
 
     void update_visable_food_(std::vector<point> all_food);
 
-    uint16_t id()    { return id_; }
-    point location() { return current_location_; }
+    uint16_t id()         { return id_; }
+    point location()      { return current_location_; }
+    point next_location() { return next_location_; }
     
 }; // End class Creature
 

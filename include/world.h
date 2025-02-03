@@ -20,6 +20,7 @@ public:
     World();
     ~World() = default;
 
+    void update_state();
     void print_creature_stats();
 
 }; // End class World
