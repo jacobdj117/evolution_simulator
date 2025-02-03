@@ -3,8 +3,8 @@
 #include "world.h"
 
 evo_sim::World::World() {
-    creatures_.push_back(Creature{0});
     food_locations_.push_back({5, 5});
+    creatures_.push_back(Creature{0, food_locations_});
 }
 
 void evo_sim::World::print_creature_stats() {
