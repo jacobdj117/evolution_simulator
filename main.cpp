@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "world.h"
+
 int main() {
-    std::cout << "base compile set up\n";
+    evo_sim::World world{};
+    world.print_creature_stats();
 }
