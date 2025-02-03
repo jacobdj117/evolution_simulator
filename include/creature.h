@@ -8,7 +8,7 @@ namespace evo_sim {
 
 class Creature {
 private:
-    const uint16_t max_visable_distace = 5;
+    const uint16_t max_visable_distace_ = 5;
 
     point current_location_;
     point next_location_;

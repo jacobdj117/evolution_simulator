@@ -1,3 +1,4 @@
+#include <cfloat>
 #include <math.h>
 
 #include "creature.h"
@@ -11,11 +12,22 @@ evo_sim::Creature::Creature(uint16_t init_id, std::vector<point> init_food)
 }
 
 void evo_sim::Creature::update_visable_food_(std::vector<point> all_food) {
-    uint16_t distance_to_closest_food = UINT16_MAX;
+    float distance_to_closest_food = FLT_MAX;
     const point target_food = current_location_;
 
     for (point food : all_food) {
-        
+        // Filter food outside visable range
+        if (abs(food.first - current_location_.first) > max_visable_distace_) { continue; }
+        if (abs(food.second - current_location_.second) > max_visable_distace_) { continue; }
+
+        // Get distance to food and track closest item
+        uint16_t x = pow(food.first - current_location_.first , 2);
+        uint16_t y = pow(food.second - current_location_.second, 2);
+        float distance = sqrt(x + y);
+
+        if (distance > distance_to_closest_food) { continue; }
+        distance_to_closest_food = distance;
+        next_location_ = food;
     }
 
     next_location_ = target_food;
