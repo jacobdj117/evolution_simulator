@@ -3,8 +3,9 @@
 
 #include "creature.h"
 
-evo_sim::Creature::Creature(uint16_t init_id, std::vector<point> init_food)
+evo_sim::Creature::Creature(uint16_t init_id, float init_energy, std::vector<point> init_food)
     : id_ {init_id}
+    , energy_ {init_energy}
     , current_location_ {0, 0}
     , next_location_ {0, 0}
     , closest_visable_food_ {UINT16_MAX, UINT16_MAX}
@@ -13,7 +14,12 @@ evo_sim::Creature::Creature(uint16_t init_id, std::vector<point> init_food)
     update_visable_food_(init_food);
 }
 
-void evo_sim::Creature::update_visable_food_(std::vector<point> all_food) {
+void evo_sim::Creature::perform_day_actions(std::vector<point> all_food) {    
+    update_visable_food(all_food);
+    update_location();
+}
+
+void evo_sim::Creature::update_visable_food(std::vector<point> all_food) {
     float distance_to_closest_food = FLT_MAX;
     const point target_food = current_location_;
 

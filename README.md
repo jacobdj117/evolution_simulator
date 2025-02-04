@@ -25,6 +25,6 @@ The world is a coordinate grid.  Multiple food items and a single creature are p
 
 1. Add the first variable features to the creatures.  Moving faster will require more energy, but should allow the creature to get more food.
 
-1. Add an evaluation criterea for which creatures get to reproduce at the end of a time period.
+1. Add the second variable trait to the creatures.  A higher vision distance increases the daily energy cost.
 
-1. Finally add the evolution!  At the end of each simulation, make the next simulation create creatures based on random variants of the previous sim's best creatures
+1. Add reproduction and evolution - add an energy cost to reproduce, and split the creature while randomly adjusting the movement speed and vision distance traits.
