@@ -1,3 +1,4 @@
+#include "creature.h"
 #include "logger.h"
 #include "world.h"
 
@@ -6,7 +7,7 @@ int main() {
     evo_sim::Logger logger(&world);
     
     logger.log_world_state();
-    for (int i=0; i<3; i++) {
+    while (world.creatures().size() > 0) {
         world.update_state();
         logger.log_world_state();
     }

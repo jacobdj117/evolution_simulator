@@ -22,10 +22,10 @@ public:
 
     void update_state();
     
-    std::vector<Creature> creatures() { return creatures_; }
+    std::vector<Creature> creatures()   { return creatures_; }
     std::vector<point> food_locations() { return food_locations_; }
-    uint16_t width() { return width_; }
-    uint16_t height() { return height_; }
+    uint16_t width()                    { return width_; }
+    uint16_t height()                   { return height_; }
 
 }; // End class World
 

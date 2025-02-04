@@ -12,6 +12,8 @@ This repo is build on Windows 10 using MIN GW and CMake.  Siply install these de
 
 The world is a coordinate grid.  Multiple food items and a single creature are placed at hardcoded locations in the world.  The creature will look at all the food within it's sight range and move to the nearest piece of food.  When the creature arrives at the food, it is eaten.
 
+Eating food provides energy to creatures.  Each creature incurs a daily energy cost and expends energy to move.  When a creature's energy falls below 0, it dies.
+
 ## Next Goals:
 1. Add starvation deaths by making creatures expend energy for motion and gain energy from food.  The creature dies when energy hits 0.
 
@@ -25,6 +27,8 @@ The world is a coordinate grid.  Multiple food items and a single creature are p
 
 1. Add the first variable features to the creatures.  Moving faster will require more energy, but should allow the creature to get more food.
 
-1. Add an evaluation criterea for which creatures get to reproduce at the end of a time period.
+1. Add the second variable trait to the creatures.  A higher vision distance increases the daily energy cost.
 
-1. Finally add the evolution!  At the end of each simulation, make the next simulation create creatures based on random variants of the previous sim's best creatures
+1. Add reproduction and evolution - add an energy cost to reproduce, and split the creature while randomly adjusting the movement speed and vision distance traits.
+
+1. Allow a creature to continue moving after it has eaten if it has not used all of its speed
