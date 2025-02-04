@@ -31,20 +31,24 @@ void evo_sim::Creature::update_visable_food(std::vector<point> all_food) {
         if (abs(food.second - current_location_.second) > max_visable_distace_) { continue; }
 
         // Get distance to food
-        uint16_t x = pow(food.first - current_location_.first , 2);
-        uint16_t y = pow(food.second - current_location_.second, 2);
-        float distance = sqrt(x + y);
+        float distance_to_food = distance(food, current_location_);
 
         // Track closest food
-        if (distance > distance_to_closest_food) { continue; }
-        distance_to_closest_food = distance;
+        if (distance_to_food > distance_to_closest_food) { continue; }
+        distance_to_closest_food = distance_to_food;
         next_location_ = food;
         closest_visable_food_ = food;
     }
 }
 
 void evo_sim::Creature::update_location() {
+    // Energy cost for moving
+    float distance_traveled = distance(current_location_, next_location_);
+    energy_ -= 0.5 * distance_traveled;
+    
     current_location_ = next_location_;
+
+    // Energy gain if new location is food
     if (current_location_ == closest_visable_food_) {
         last_food_eaten_ = closest_visable_food_;
         energy_ += 1;
@@ -56,4 +60,10 @@ std::optional<evo_sim::point> evo_sim::Creature::last_food_eaten() {
     evo_sim::point food = last_food_eaten_.value();
     last_food_eaten_ = std::nullopt;
     return food;
+}
+
+float evo_sim::Creature::distance(point a, point b) {
+    uint32_t x = pow(a.first - b.first , 2);
+    uint32_t y = pow(a.second - b.second, 2);
+    return sqrt(x + y);
 }

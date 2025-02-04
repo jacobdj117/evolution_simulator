@@ -22,6 +22,7 @@ private:
 
     void update_visable_food(std::vector<point> all_food);
     void update_location();
+    float distance(point a, point b);
 
 public:
     Creature(uint16_t init_id, float init_energy, std::vector<point> init_food);
