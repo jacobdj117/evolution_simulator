@@ -21,7 +21,11 @@ public:
     ~World() = default;
 
     void update_state();
-    void print_creature_stats();
+    
+    std::vector<Creature> creatures() { return creatures_; }
+    std::vector<point> food_locations() { return food_locations_; }
+    uint16_t width() { return width_; }
+    uint16_t height() { return height_; }
 
 }; // End class World
 

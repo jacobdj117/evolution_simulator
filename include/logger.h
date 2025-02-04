@@ -14,6 +14,9 @@ private:
 
     std::unique_ptr<World> world_;
     std::ofstream file_;
+    uint16_t count_;
+
+    void log_point(uint16_t x, uint16_t y);
 
 public:
     Logger(World* world_ref);

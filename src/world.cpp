@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <iostream>
 #include <optional>
 
 #include "world.h"
@@ -23,15 +22,5 @@ void evo_sim::World::update_state() {
             std::remove(food_locations_.begin(), food_locations_.end(), eaten_food),
             food_locations_.end()
         );
-    }
-}
-
-void evo_sim::World::print_creature_stats() {
-    std::cout << "Creature Stats:\n";
-    std::cout << "| ID | location (x, y) | next\n";
-    for (Creature creature : creatures_) {
-        std::cout << "|  "   << creature.id()
-                  << " | " << creature.location().first << ", "   << creature.location().second 
-                  << "            |    " << creature.next_location().first << ", " << creature.next_location().second << "\n";
     }
 }

@@ -5,9 +5,9 @@ int main() {
     evo_sim::World world{};
     evo_sim::Logger logger(&world);
     
-    world.print_creature_stats();
+    logger.log_world_state();
     for (int i=0; i<3; i++) {
         world.update_state();
-        world.print_creature_stats();
+        logger.log_world_state();
     }
 }
