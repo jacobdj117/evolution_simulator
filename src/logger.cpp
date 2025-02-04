@@ -31,7 +31,7 @@ void evo_sim::Logger::log_point(uint16_t x, uint16_t y) {
         if (creature.location().first != x) { continue; }
         if (creature.location().second != y) { continue; }
 
-        file_ << "c ";
+        file_ << creature.id() << " ";
         return;
     }
 

@@ -11,10 +11,12 @@ evo_sim::Creature::Creature(uint16_t init_id, float init_energy, std::vector<poi
     , closest_visable_food_ {UINT16_MAX, UINT16_MAX}
     , last_food_eaten_ {std::nullopt}
 {
-    update_visable_food_(init_food);
+    update_visable_food(init_food);
 }
 
 void evo_sim::Creature::perform_day_actions(std::vector<point> all_food) {    
+    energy_ -= 1.5; // TODO - make this a function of max_visable_distance_
+    
     update_visable_food(all_food);
     update_location();
 }
@@ -45,6 +47,7 @@ void evo_sim::Creature::update_location() {
     current_location_ = next_location_;
     if (current_location_ == closest_visable_food_) {
         last_food_eaten_ = closest_visable_food_;
+        energy_ += 1;
     }
 }
 

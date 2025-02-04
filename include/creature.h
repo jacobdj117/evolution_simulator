@@ -24,13 +24,14 @@ private:
     void update_location();
 
 public:
-    Creature(uint16_t init_id, std::vector<point> init_food);
+    Creature(uint16_t init_id, float init_energy, std::vector<point> init_food);
     ~Creature() = default;
 
     std::optional<point> last_food_eaten();
     void perform_day_actions(std::vector<point> all_food);
     
     uint16_t id()         { return id_; }
+    float energy()        { return energy_; }
     point location()      { return current_location_; }
     point next_location() { return next_location_; }
     

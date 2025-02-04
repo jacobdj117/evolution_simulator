@@ -28,3 +28,5 @@ The world is a coordinate grid.  Multiple food items and a single creature are p
 1. Add the second variable trait to the creatures.  A higher vision distance increases the daily energy cost.
 
 1. Add reproduction and evolution - add an energy cost to reproduce, and split the creature while randomly adjusting the movement speed and vision distance traits.
+
+1. Allow a creature to continue moving after it has eaten if it has not used all of its speed
