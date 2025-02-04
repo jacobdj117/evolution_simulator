@@ -27,6 +27,12 @@ public:
     Creature(uint16_t init_id, float init_energy, std::vector<point> init_food);
     ~Creature() = default;
 
+    Creature& operator=(const Creature& other) {
+        if (this == &other) { return *this; }
+
+        return *this;
+    }
+
     std::optional<point> last_food_eaten();
     void perform_day_actions(std::vector<point> all_food);
     
