@@ -39,12 +39,8 @@ void evo_sim::Creature::update_visable_food(std::vector<point> all_food) {
     }
 }
 
-// diff for each axix (end - start)
-// mult by speed / distance
-// add that result to the starting point
-
 void evo_sim::Creature::update_location() {
-    // Calculate next distance
+    // Calculate next location
     float distance_to_food = distance(current_location_, closest_visable_food_);
     if (distance_to_food > static_cast<float>(speed_)) {
         uint16_t x_dif = closest_visable_food_.first - current_location_.first;
