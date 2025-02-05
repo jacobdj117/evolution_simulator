@@ -47,10 +47,11 @@ void evo_sim::Creature::update_location() {
     // Calculate next distance
     float distance_to_food = distance(current_location_, closest_visable_food_);
     if (distance_to_food > static_cast<float>(speed_)) {
+        uint16_t x_dif = closest_visable_food_.first - current_location_.first;
+        uint16_t y_dif = closest_visable_food_.second - current_location_.second;
         float distance_ratio = speed_ / distance_to_food;
-        uint16_t x = static_cast<uint16_t>((current_location_.first + closest_visable_food_.first) / distance_ratio);
-        uint16_t y = static_cast<uint16_t>((current_location_.second + closest_visable_food_.second) / distance_ratio);
-        next_location_ = {x, y};
+        next_location_.first = current_location_.first + (x_dif * distance_ratio);
+        next_location_.second = current_location_.second + (y_dif * distance_ratio);
     } else {
         next_location_ = closest_visable_food_;
     }
