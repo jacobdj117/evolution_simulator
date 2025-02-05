@@ -5,8 +5,9 @@
 
 evo_sim::World::World() {
     food_locations_.push_back({1, 1});
-    food_locations_.push_back({3, 3});
-    food_locations_.push_back({7, 7});
+    food_locations_.push_back({2, 2});
+    food_locations_.push_back({2, 5});
+    food_locations_.push_back({2, 12});
     creatures_.push_back(Creature{0, 10.0, food_locations_});
 }
 

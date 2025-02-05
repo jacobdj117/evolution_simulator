@@ -23,7 +23,6 @@ void evo_sim::Creature::perform_day_actions(std::vector<point> all_food) {
 
 void evo_sim::Creature::update_visable_food(std::vector<point> all_food) {
     float distance_to_closest_food = FLT_MAX;
-    const point target_food = current_location_;
 
     for (point food : all_food) {
         // Filter food outside visable range
@@ -36,12 +35,26 @@ void evo_sim::Creature::update_visable_food(std::vector<point> all_food) {
         // Track closest food
         if (distance_to_food > distance_to_closest_food) { continue; }
         distance_to_closest_food = distance_to_food;
-        next_location_ = food;
         closest_visable_food_ = food;
     }
 }
 
+// diff for each axix (end - start)
+// mult by speed / distance
+// add that result to the starting point
+
 void evo_sim::Creature::update_location() {
+    // Calculate next distance
+    float distance_to_food = distance(current_location_, closest_visable_food_);
+    if (distance_to_food > static_cast<float>(speed_)) {
+        float distance_ratio = speed_ / distance_to_food;
+        uint16_t x = static_cast<uint16_t>((current_location_.first + closest_visable_food_.first) / distance_ratio);
+        uint16_t y = static_cast<uint16_t>((current_location_.second + closest_visable_food_.second) / distance_ratio);
+        next_location_ = {x, y};
+    } else {
+        next_location_ = closest_visable_food_;
+    }
+
     // Energy cost for moving
     float distance_traveled = distance(current_location_, next_location_);
     energy_ -= 0.5 * distance_traveled;
