@@ -16,7 +16,7 @@ Eating food provides energy to creatures.  Each creature incurs a daily energy c
 
 ## Next Goals:
 
-1. Add a speed stat to creatures.  The speed is the distance they may travel in a single time period
+1. Fix bug: food is not removed if the creature stays on it.
 
 1. Define interaction when multiple creatures end a time period in the same location.
 
