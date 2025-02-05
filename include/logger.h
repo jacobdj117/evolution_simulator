@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <memory>
+#include <queue>
 #include <string>
 
 #include "world.h"
@@ -14,6 +15,7 @@ private:
 
     uint16_t count_;
     std::ofstream file_;
+    std::queue<std::string> creature_stats_;
     std::unique_ptr<World> world_;
 
     void log_point(uint16_t x, uint16_t y);

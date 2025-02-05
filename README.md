@@ -15,11 +15,8 @@ The world is a coordinate grid.  Multiple food items and a single creature are p
 Eating food provides energy to creatures.  Each creature incurs a daily energy cost and expends energy to move.  When a creature's energy falls below 0, it dies.
 
 ## Next Goals:
-1. Add starvation deaths by making creatures expend energy for motion and gain energy from food.  The creature dies when energy hits 0.
 
-1. Define an end state when all creatures are dead.  Replace the hardcoded world state updates with a check on this end state.
-
-1. Add a speed stat to creatures.  The speed is the distance they may travel in a single time period
+1. Fix bug: food is not removed if the creature stays on it.
 
 1. Define interaction when multiple creatures end a time period in the same location.
 

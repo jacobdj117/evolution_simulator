@@ -23,6 +23,12 @@ void evo_sim::Logger::log_world_state() {
         file_ << "\n";
     }
 
+    while (!creature_stats_.empty()) {
+        std::string next = creature_stats_.front();
+        creature_stats_.pop();
+        file_ << next << "\n";
+    }
+
     file_ << "\n\n";
 }
 
@@ -31,6 +37,16 @@ void evo_sim::Logger::log_point(uint16_t x, uint16_t y) {
         if (creature.location().first != x) { continue; }
         if (creature.location().second != y) { continue; }
 
+        std::string creature_status = {
+            "Creature " + std::to_string(creature.id()) +
+            " | location: " + std::to_string( creature.location().first) + 
+            "," + std::to_string(creature.location().second) +
+            " | energy: " + std::to_string(creature.energy()) +
+            " | target location: " + std::to_string(creature.next_location().first) +
+            "," + std::to_string(creature.next_location().second)
+        };
+
+        creature_stats_.push(creature_status);
         file_ << creature.id() << " ";
         return;
     }
