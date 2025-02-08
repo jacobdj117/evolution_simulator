@@ -4,11 +4,14 @@
 #include "food.h"
 #include "logger.h"
 
+#include <iostream>
+
 evo_sim::Logger::Logger(World* world_ref)
     : count_ {0}
     , world_ {world_ref}
     , file_ {file_name_}
 {
+    file_ << "test\n";
     if (!file_.is_open()) throw "could not open output file";
 }
 
@@ -17,7 +20,9 @@ evo_sim::Logger::~Logger() {
 }
 
 void evo_sim::Logger::log_world_state() {
+    
     file_ << "Time increment " << count_++ << ":\n";
+    std::cout << "lws\n";
 
     for (int y=0; y<world_->height(); y++) {
         for (int x=0; x<world_->width(); x++) {
