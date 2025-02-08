@@ -1,8 +1,10 @@
 #pragma once
 
+#include <memory>
 #include <optional>
 #include <vector>
 
+#include "food.h"
 #include "types.h"
 
 namespace evo_sim {
@@ -17,16 +19,14 @@ private:
 
     uint16_t id_;
     float energy_;
-    std::vector<point> visable_food_;
-    point closest_visable_food_;
+    std::shared_ptr<Food> food_;
+    std::optional<point> closest_visable_food_;
     std::optional<point> last_food_eaten_;
 
-    void update_visable_food(std::vector<point> all_food);
     void update_location();
-    float distance(point a, point b);
 
 public:
-    Creature(uint16_t init_id, float init_energy, std::vector<point> init_food);
+    Creature(uint16_t init_id, float init_energy, Food* init_food);
     ~Creature() = default;
 
     Creature& operator=(const Creature& other) {
@@ -36,7 +36,7 @@ public:
     }
 
     std::optional<point> last_food_eaten();
-    void perform_day_actions(std::vector<point> all_food);
+    void perform_day_actions();
     
     uint16_t id()         { return id_; }
     float energy()        { return energy_; }

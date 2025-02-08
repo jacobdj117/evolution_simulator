@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <optional>
 
 #include "types.h"
 
@@ -26,6 +27,9 @@ public:
     // received from request and returns the amount of energy received from eating the food. 
     float get_energy(point location, uint16_t id);
 
+    std::optional<point> closest_food(point ref, uint16_t max_visable_disatnce);
+    void remove_food(point ref);
+    bool is_food(point ref);
 }; // End class Food
 
 }; // End namespace evo_sim
