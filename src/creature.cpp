@@ -14,7 +14,7 @@ evo_sim::Creature::Creature(uint16_t init_id, float init_energy, Food* init_food
     , closest_visable_food_ {food_->closest_food(current_location_, max_visable_distace_)}
 { }
 
-void evo_sim::Creature::perform_day_actions() {    
+void evo_sim::Creature::perform_day_actions() {   
     energy_ -= 1.5; // TODO - make this a function of max_visable_distance_
     closest_visable_food_ = food_->closest_food(current_location_, max_visable_distace_);
     update_location();
