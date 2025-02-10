@@ -3,11 +3,18 @@
 
 #include "world.h"
 
+#include <iostream>
+
 evo_sim::World::World()
-    : food_ {}
+    : rand_ {{width_, height_}}
+    , food_ {}
 {
-    creatures_.push_back(Creature{0, 10.0, &food_, {1, 1}});
-    creatures_.push_back(Creature{1, 10.0, &food_, {5, 1}});
+    std::cout << "world ctor" << std::endl;
+    uint16_t creaure_count = rand_.random_between(min_init_creatures_, max_init_creatures_);
+    for (int i=0; i<creaure_count; i++) {
+        creatures_.push_back(Creature{i, 10.0, &food_, rand_.random_point()});
+    }
+    std::cout << "end world ctor with " << creatures_.size() << std::endl;
 }
 
 void evo_sim::World::update_state() {
