@@ -6,7 +6,8 @@
 evo_sim::World::World()
     : food_ {}
 {
-    creatures_.push_back(Creature{0, 10.0, &food_});
+    creatures_.push_back(Creature{0, 10.0, &food_, {1, 1}});
+    creatures_.push_back(Creature{1, 10.0, &food_, {5, 1}});
 }
 
 void evo_sim::World::update_state() {

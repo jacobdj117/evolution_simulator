@@ -4,10 +4,10 @@
 #include "evo_math.h"
 #include "creature.h"
 
-evo_sim::Creature::Creature(uint16_t init_id, float init_energy, Food* init_food)
+evo_sim::Creature::Creature(uint16_t init_id, float init_energy, Food* init_food, point init_location)
     : id_ {init_id}
     , energy_ {init_energy}
-    , current_location_ {0, 0}
+    , current_location_ {init_location}
     , next_location_ {0, 0}
     , food_ {init_food}
     , closest_visable_food_ {food_->closest_food(current_location_, max_visable_distace_)}

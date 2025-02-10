@@ -26,7 +26,7 @@ private:
     void update_location();
 
 public:
-    Creature(uint16_t init_id, float init_energy, Food* init_food);
+    Creature(uint16_t init_id, float init_energy, Food* init_food, point init_location);
     ~Creature() = default;
 
     Creature& operator=(const Creature& other) {
