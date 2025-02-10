@@ -22,7 +22,6 @@ void evo_sim::Logger::log_world_state() {
     for (int y=0; y<world_->height(); y++) {
         for (int x=0; x<world_->width(); x++) {
             log_point(x, y);
-            file_.flush();
         }
         file_ << "\n";
     }
