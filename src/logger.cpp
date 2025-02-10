@@ -9,7 +9,6 @@ evo_sim::Logger::Logger(World* world_ref)
     , world_ {world_ref}
     , file_ {file_name_}
 {
-    file_ << "test\n";
     if (!file_.is_open()) throw "could not open output file";
 }
 
