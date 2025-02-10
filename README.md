@@ -16,10 +16,6 @@ Eating food provides energy to creatures.  Each creature incurs a daily energy c
 
 ## Next Goals:
 
-1. Fix bug: food is not removed if the creature stays on it.
-
-1. Define interaction when multiple creatures end a time period in the same location.
-
 1. Randomize the start.  This should be the first stage where multiple creatures are searching for multiple food items.
 
 1. Add the first variable features to the creatures.  Moving faster will require more energy, but should allow the creature to get more food.
