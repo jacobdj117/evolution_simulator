@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "creature.h"
+#include "food.h"
 #include "types.h"
 
 namespace evo_sim {
@@ -13,7 +14,7 @@ private:
     static constexpr uint16_t height_ = 20;
 
     std::vector<Creature> creatures_;
-    std::vector<point> food_locations_;
+    Food food_;
 
 public:
 
@@ -22,10 +23,10 @@ public:
 
     void update_state();
     
-    std::vector<Creature> creatures()   { return creatures_; }
-    std::vector<point> food_locations() { return food_locations_; }
-    uint16_t width()                    { return width_; }
-    uint16_t height()                   { return height_; }
+    std::vector<Creature> creatures() { return creatures_; }
+    Food* food()                      { return &food_; }
+    uint16_t width()                  { return width_; }
+    uint16_t height()                 { return height_; }
 
 }; // End class World
 

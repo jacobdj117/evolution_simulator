@@ -3,26 +3,23 @@
 
 #include "world.h"
 
-evo_sim::World::World() {
-    food_locations_.push_back({1, 1});
-    food_locations_.push_back({2, 2});
-    food_locations_.push_back({2, 5});
-    food_locations_.push_back({2, 12});
-    creatures_.push_back(Creature{0, 10.0, food_locations_});
+evo_sim::World::World()
+    : food_ {}
+{
+    creatures_.push_back(Creature{0, 10.0, &food_, {1, 1}});
+    creatures_.push_back(Creature{1, 10.0, &food_, {5, 1}});
 }
 
 void evo_sim::World::update_state() {
     // Creature actions
     for (Creature& creature : creatures_) {
-        creature.perform_day_actions(food_locations_);
+        creature.perform_day_actions();
+    }
 
-        std::optional<point> eaten_food = creature.last_food_eaten();
-        if (eaten_food == std::nullopt) { continue; }
-
-        food_locations_.erase(
-            std::remove(food_locations_.begin(), food_locations_.end(), eaten_food),
-            food_locations_.end()
-        );
+    // Update food
+    for (Creature& creature : creatures_) {
+        creature.update_energy();
+        food_.remove_eaten_food();
     }
 
     // Remove dead creatures

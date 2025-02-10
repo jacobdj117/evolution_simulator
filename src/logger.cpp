@@ -1,4 +1,7 @@
+#include <memory>
+
 #include "creature.h"
+#include "food.h"
 #include "logger.h"
 
 evo_sim::Logger::Logger(World* world_ref)
@@ -33,7 +36,7 @@ void evo_sim::Logger::log_world_state() {
 }
 
 void evo_sim::Logger::log_point(uint16_t x, uint16_t y) {
-    for (Creature creature : world_->creatures()) {
+    for (Creature& creature : world_->creatures()) {
         if (creature.location().first != x) { continue; }
         if (creature.location().second != y) { continue; }
 
@@ -51,10 +54,8 @@ void evo_sim::Logger::log_point(uint16_t x, uint16_t y) {
         return;
     }
 
-    for (point food : world_->food_locations()) {
-        if (food.first != x) { continue; }
-        if (food.second != y) { continue; }
-
+    bool is_food = world_->food()->is_food({x, y});
+    if (is_food) {
         file_ << "f ";
         return;
     }
