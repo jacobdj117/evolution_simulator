@@ -17,7 +17,15 @@ uint16_t evo_sim::Food::request(point location) {
 }
 
 float evo_sim::Food::get_energy(point location, uint16_t id) {
-    return energy_;
+    if (food_pieces_.count(location) == 0) { return 0.0; }
+
+    food_eaten_.push(location);
+
+    if (food_pieces_[location] == 1) { return energy_; }
+
+    uint32_t portions = triangular_number(food_pieces_[location]);
+    float portion_size = energy_ / portions;
+    return portion_size * (id - (id - 1));
 }
 
 std::optional<evo_sim::point> evo_sim::Food::closest_food(point ref, uint16_t max_visable_disatnce) {
@@ -41,8 +49,16 @@ std::optional<evo_sim::point> evo_sim::Food::closest_food(point ref, uint16_t ma
     return closest_food;
 }
 
-void evo_sim::Food::remove_food(point ref) {
-    food_pieces_.erase(ref);
+void evo_sim::Food::remove_eaten_food() {
+    while (!food_eaten_.empty()) {
+        point food = food_eaten_.front();
+
+        if (food_pieces_.count(food) > 0) {
+            food_pieces_.erase(food);
+        }
+
+        food_eaten_.pop();
+    }
 }
 
 bool evo_sim::Food::is_food(point ref) {

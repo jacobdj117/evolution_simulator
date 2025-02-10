@@ -13,11 +13,12 @@ void evo_sim::World::update_state() {
     // Creature actions
     for (Creature& creature : creatures_) {
         creature.perform_day_actions();
+    }
 
-        std::optional<point> eaten_food = creature.last_food_eaten();
-        if (eaten_food == std::nullopt) { continue; }
-
-        food_.remove_food(eaten_food.value());
+    // Update food
+    for (Creature& creature : creatures_) {
+        creature.update_energy();
+        food_.remove_eaten_food();
     }
 
     // Remove dead creatures

@@ -7,17 +7,22 @@
 evo_sim::Creature::Creature(uint16_t init_id, float init_energy, Food* init_food)
     : id_ {init_id}
     , energy_ {init_energy}
-    , food_ {init_food}
     , current_location_ {0, 0}
     , next_location_ {0, 0}
-    , last_food_eaten_ {std::nullopt}
+    , food_ {init_food}
     , closest_visable_food_ {food_->closest_food(current_location_, max_visable_distace_)}
+    , last_food_eaten_ {std::nullopt}
+    , food_request_id_ {0}
 { }
 
 void evo_sim::Creature::perform_day_actions() {   
     energy_ -= 1.5; // TODO - make this a function of max_visable_distance_
     closest_visable_food_ = food_->closest_food(current_location_, max_visable_distace_);
     update_location();
+}
+
+void evo_sim::Creature::update_energy() {
+    energy_ += food_->get_energy(current_location_, food_request_id_);
 }
 
 void evo_sim::Creature::update_location() {
@@ -33,6 +38,7 @@ void evo_sim::Creature::update_location() {
         next_location_.second = current_location_.second + (y_dif * distance_ratio);
     } else {
         next_location_ = closest_visable_food_.value();
+        food_request_id_ = food_->request(next_location_);
     }
 
     // Energy cost for moving
