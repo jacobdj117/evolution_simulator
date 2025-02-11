@@ -3,8 +3,6 @@
 
 #include "world.h"
 
-#include <iostream>
-
 evo_sim::World::World()
     : rand_ {{width_, height_}}
     , food_ {}
@@ -16,7 +14,6 @@ evo_sim::World::World()
 }
 
 void evo_sim::World::update_state() {
-    std::cout << "world begin update state" << std::endl;
     // Creature actions
     for (Creature& creature : creatures_) {
         creature.perform_day_actions();
@@ -31,7 +28,6 @@ void evo_sim::World::update_state() {
     // Remove dead creatures
     std::vector<Creature>::iterator iter = creatures_.begin();
     while (iter < creatures_.end()) {
-        std::cout << "    " << iter->id() << std::endl;
         if (iter->energy() > 0.0) {
             iter++;
             continue;
