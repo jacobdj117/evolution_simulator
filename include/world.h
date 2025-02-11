@@ -27,7 +27,7 @@ public:
     ~World() = default;
 
     void update_state();
-    
+
     std::vector<Creature> creatures() { return creatures_; }
     Food* food()                      { return &food_; }
     uint16_t width()                  { return width_; }

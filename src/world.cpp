@@ -30,7 +30,7 @@ void evo_sim::World::update_state() {
 
     // Remove dead creatures
     std::vector<Creature>::iterator iter = creatures_.begin();
-    for (iter; iter != creatures_.end(); ) {
+    while (iter < creatures_.end()) {
         std::cout << "    " << iter->id() << std::endl;
         if (iter->energy() > 0.0) {
             ++iter;

@@ -18,7 +18,7 @@ evo_sim::Creature::Creature(uint16_t init_id, float init_energy, Food* init_food
 evo_sim::Creature::Creature(const Creature& other)
     : id_ {other.id_}
     , energy_ {other.energy_}
-    , current_location_ {other.next_location_}
+    , current_location_ {other.current_location_}
     , next_location_ {other.next_location_}
     , food_ {other.food_}
     , closest_visable_food_ {other.closest_visable_food_}
