@@ -6,9 +6,6 @@
 
 evo_sim::Food::Food() {
     food_pieces_.emplace(std::pair{3, 1}, 0);
-    // food_pieces_.emplace(std::pair{2, 2}, 0);
-    // food_pieces_.emplace(std::pair{2, 5}, 0);
-    // food_pieces_.emplace(std::pair{2, 12}, 0);
 }
 
 uint16_t evo_sim::Food::request(point location) {

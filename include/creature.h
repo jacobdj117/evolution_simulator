@@ -18,7 +18,7 @@ private:
     float energy_;
     point current_location_;
     point next_location_;
-    std::shared_ptr<Food> food_;
+    Food* food_;
     std::optional<point> closest_visable_food_;
     std::optional<point> last_food_eaten_;
     uint16_t food_request_id_;
@@ -27,12 +27,22 @@ private:
 
 public:
     Creature(uint16_t init_id, float init_energy, Food* init_food, point init_location);
+    Creature(const Creature& other);
+    Creature(Creature&& other);
     ~Creature() = default;
 
     Creature& operator=(const Creature& other) {
         if (this == &other) { return *this; }
 
         return *this;
+    }
+
+    bool operator==(const Creature& other) {
+        if (id_ != other.id_) { return false; }
+        if (energy_ != other.energy_) { return false; }
+        if (current_location_ != other.current_location_) { return false; }
+
+        return true;
     }
 
     std::optional<point> last_food_eaten();

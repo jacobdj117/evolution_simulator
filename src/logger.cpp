@@ -33,6 +33,7 @@ void evo_sim::Logger::log_world_state() {
     }
 
     file_ << "\n\n";
+    file_.flush();
 }
 
 void evo_sim::Logger::log_point(uint16_t x, uint16_t y) {

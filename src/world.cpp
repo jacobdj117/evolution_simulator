@@ -4,10 +4,13 @@
 #include "world.h"
 
 evo_sim::World::World()
-    : food_ {}
+    : rand_ {{width_, height_}}
+    , food_ {}
 {
-    creatures_.push_back(Creature{0, 10.0, &food_, {1, 1}});
-    creatures_.push_back(Creature{1, 10.0, &food_, {5, 1}});
+    uint16_t creaure_count = rand_.random_between(min_init_creatures_, max_init_creatures_);
+    for (uint16_t i=0; i<creaure_count; i++) {
+        creatures_.push_back(Creature{i, 10.0, &food_, rand_.random_point()});
+    }
 }
 
 void evo_sim::World::update_state() {
@@ -23,13 +26,13 @@ void evo_sim::World::update_state() {
     }
 
     // Remove dead creatures
-    uint16_t index = 0;
-    while (index < creatures_.size()) {
-        if (creatures_[index].energy() > 0.0) {
-            ++index;
+    std::vector<Creature>::iterator iter = creatures_.begin();
+    while (iter < creatures_.end()) {
+        if (iter->energy() > 0.0) {
+            iter++;
             continue;
         }
 
-        creatures_.erase(creatures_.begin() + index);
+        iter = creatures_.erase(iter);
     }
 }
