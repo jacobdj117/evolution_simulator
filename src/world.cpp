@@ -33,7 +33,7 @@ void evo_sim::World::update_state() {
     while (iter < creatures_.end()) {
         std::cout << "    " << iter->id() << std::endl;
         if (iter->energy() > 0.0) {
-            ++iter;
+            iter++;
             continue;
         }
 
