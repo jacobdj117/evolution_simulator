@@ -39,7 +39,6 @@ public:
 
     void add_creature(uint16_t id, float init_energy, point init_location);
     void perform_day_actions();
-    void update_energy();
     
     features creature_at(point location) { return creatures_[location]; }
     uint16_t count() { return creatures_.size(); }
@@ -48,7 +47,9 @@ private:
     std::map<point, features> creatures_;
     std::unique_ptr<Food> food_;
 
-    void update_location();
+    void perform_day_action(point key);
+    void move(point key);
+    float update_next_location(point key);
 
 }; // End class Creature
 

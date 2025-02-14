@@ -35,48 +35,54 @@ void evo_sim::Creature::add_creature(uint16_t id, float init_energy, point init_
     creatures_.emplace(init_location, new_creature_feats);
 }
 
-void evo_sim::Creature::perform_day_actions() {   
-    auto iter = creatures_.begin();
-    while (iter != creatures_.end()) {
-        iter->second.energy -= 1.5; // TODO - make this a function of max_visable_distance_
-        iter->second.closest_visable_food = food_->closest_food(
-            iter->first,
-            iter->second.max_visable_distace
-        );
-        ++iter;
-        //update_location();
-    }
+void evo_sim::Creature::perform_day_actions() {
+    for (std::pair<point, features> creature : creatures_) {
+        perform_day_action(creature.first);
+    } 
 }
 
-void evo_sim::Creature::update_energy() {
-    energy_ += food_->get_energy(current_location_, food_request_id_);
+void evo_sim::Creature::perform_day_action(point key) {
+    creatures_[key].energy -= 1.5; // TODO - make this a function of max_visable_distance_
+    creatures_[key].closest_visable_food = food_->closest_food(
+        key,
+        creatures_[key].max_visable_distance
+    );
+
+    move(key);
 }
 
-void evo_sim::Creature::update_location() {
-    // Calculate next location
-    if (!closest_visable_food_.has_value()) { return; }
-
-    float distance_to_food = distance(current_location_, closest_visable_food_.value());
-    if (distance_to_food > static_cast<float>(speed_)) {
-        uint16_t x_dif = closest_visable_food_->first - current_location_.first;
-        uint16_t y_dif = closest_visable_food_->second - current_location_.second;
-        float distance_ratio = speed_ / distance_to_food;
-        next_location_.first = current_location_.first + (x_dif * distance_ratio);
-        next_location_.second = current_location_.second + (y_dif * distance_ratio);
-    } else {
-        next_location_ = closest_visable_food_.value();
-        food_request_id_ = food_->request(next_location_);
-    }
-
-    // Energy cost for moving
-    float distance_traveled = distance(current_location_, next_location_);
-    energy_ -= 0.5 * distance_traveled;
+void evo_sim::Creature::move(point key) {
+    update_next_location(key);
     
-    current_location_ = next_location_;
+    float distance_traveled = update_next_location(key);
+    if (distance_traveled == 0.0) { return; }
 
-    // Energy gain if new location is food
-    if (current_location_ == closest_visable_food_) {
-        last_food_eaten_ = closest_visable_food_;
-        energy_ += 1;
+    creatures_[key].energy -= 0.5 * distance_traveled;
+    
+    creatures_.emplace(creatures_[key].next_location, creatures_[key]);
+    creatures_.erase(key);
+}
+
+float evo_sim::Creature::update_next_location(point key) {
+    if (!creatures_[key].closest_visable_food.has_value()) { 
+        creatures_[key].next_location = key;
+        return 0.0;
     }
+
+    const point target_food = creatures_[key].closest_visable_food.value();
+    const uint16_t speed = creatures_[key].speed;
+    const float distance_to_food = distance(key, target_food);
+
+    if (distance_to_food > static_cast<float>(speed)) {
+        uint16_t x_dif = target_food.first - key.first;
+        uint16_t y_dif = target_food.second - key.second;
+        float distance_ratio = speed / distance_to_food;
+        creatures_[key].next_location.first = key.first + (x_dif * distance_ratio);
+        creatures_[key].next_location.second = key.second + (y_dif * distance_ratio);
+    } else {
+        creatures_[key].next_location = target_food;
+        creatures_[key].food_request_id = food_->request(creatures_[key].next_location);
+    }
+
+    return distance(key, creatures_[key].next_location);
 }
