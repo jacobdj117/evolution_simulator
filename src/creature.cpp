@@ -52,10 +52,11 @@ void evo_sim::Creature::update_energy() {
     for (std::pair<point, features> creature : creatures_) {
         point key = creature.first;
         uint16_t id = creature.second.food_request_id;
-        if (id == 0) { continue; }
 
-        float energy = food_->get_energy(creature.first, id);
-        creatures_[key].energy -= energy;
+        if (id > 0) { 
+            float energy = food_->get_energy(creature.first, id);
+            creatures_[key].energy += energy;
+        }
 
         if (creatures_[key].energy <= 0.0) {
             to_erase_.push(key);
