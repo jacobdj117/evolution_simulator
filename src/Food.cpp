@@ -4,8 +4,13 @@
 #include "food.h"
 #include "evo_math.h"
 
-evo_sim::Food::Food() {
-    food_pieces_.emplace(std::pair{3, 1}, 0);
+evo_sim::Food::Food(Evo_Random* init_rand)
+    : rand_ {init_rand}
+{
+    uint16_t starting_food = rand_->random_between(min_init_food_, min_init_food_);
+    for (int i=0; i<starting_food; i++) {
+        food_pieces_.emplace(rand_->random_point(), 0);
+    }
 }
 
 uint16_t evo_sim::Food::request(point location) {

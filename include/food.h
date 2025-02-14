@@ -1,24 +1,30 @@
 #pragma once
 
 #include <map>
+#include <memory>
 #include <optional>
 #include <queue>
 
+#include "evo_random.h"
 #include "types.h"
 
 namespace evo_sim {
 
 class Food {
 private:
-    static constexpr float energy_ = 2.0;
+    static constexpr float energy_ = 8.0;
+    static constexpr uint16_t min_init_food_ = 15;
+    static constexpr uint16_t max_init_food_ = 30;
 
     // Key is the food's location in the world.  Value is the number of creatures trying to eat the food.
     std::map<point, uint16_t> food_pieces_;
 
+    std::unique_ptr<Evo_Random> rand_;
+
     std::queue<point> food_eaten_;
 
 public:
-    Food();
+    Food(Evo_Random* init_rand);
     ~Food() = default;
 
     // Called when a creature reaches location.  Logs that the creature is trying to eat the food.

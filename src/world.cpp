@@ -5,7 +5,7 @@
 
 evo_sim::World::World()
     : rand_ {{width_, height_}}
-    , food_ {}
+    , food_ {&rand_}
     , creatures_ {&food_}
 {
     uint16_t creaure_count = rand_.random_between(min_init_creatures_, max_init_creatures_);
