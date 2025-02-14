@@ -4,8 +4,16 @@
 #include "food.h"
 #include "evo_math.h"
 
-evo_sim::Food::Food() {
-    food_pieces_.emplace(std::pair{3, 1}, 0);
+#include <iostream>
+
+evo_sim::Food::Food(Evo_Random* init_rand)
+    : rand_ {init_rand}
+    , new_food_period_ {3}
+    , new_food_timer_ {0}
+{
+    std::cout << "food ctor" << std::endl;
+    create_food(min_init_food_, max_init_food_);
+    std::cout << "end food ctor" << std::endl;
 }
 
 uint16_t evo_sim::Food::request(point location) {
@@ -23,6 +31,21 @@ float evo_sim::Food::get_energy(point location, uint16_t id) {
     uint32_t portions = triangular_number(food_pieces_[location]);
     float portion_size = energy_ / portions;
     return portion_size * (id - (id - 1));
+}
+
+void evo_sim::Food::perform_day_actions() {
+    remove_eaten_food();
+
+    if (++new_food_timer_ <= new_food_period_) { return; }
+
+    create_food(3, 10);
+}
+
+void evo_sim::Food::create_food(uint16_t count_min, uint16_t count_max) {
+    uint16_t new_food_count = rand_->random_between(count_min, count_max);
+    for (int i=0; i<new_food_count; i++) {
+        food_pieces_.emplace(rand_->random_point(), 0);
+    }
 }
 
 std::optional<evo_sim::point> evo_sim::Food::closest_food(point ref, uint16_t max_visable_disatnce) {
