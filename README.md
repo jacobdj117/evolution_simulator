@@ -10,13 +10,11 @@ This repo is build on Windows 10 using MIN GW and CMake.  Siply install these de
 
 ## Current State:
 
-The world is a coordinate grid.  Multiple food items and a single creature are placed at hardcoded locations in the world.  The creature will look at all the food within it's sight range and move to the nearest piece of food.  When the creature arrives at the food, it is eaten.
+The world is a coordinate grid.  Multiple food items and creatures are placed at random points in the world.  The creatures will look at all the food within their sight range and move to the nearest piece of food.  When the creature arrives at the food, the food is eaten.
 
 Eating food provides energy to creatures.  Each creature incurs a daily energy cost and expends energy to move.  When a creature's energy falls below 0, it dies.
 
 ## Next Goals:
-
-1. Randomize the start.  This should be the first stage where multiple creatures are searching for multiple food items.
 
 1. Add the first variable features to the creatures.  Moving faster will require more energy, but should allow the creature to get more food.
 
