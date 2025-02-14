@@ -5,44 +5,47 @@
 #include "creature.h"
 
 evo_sim::Creature::Creature(uint16_t init_id, float init_energy, Food* init_food, point init_location)
-    : id_ {init_id}
-    , energy_ {init_energy}
-    , current_location_ {init_location}
-    , next_location_ {0, 0}
-    , food_ {init_food}
-    , closest_visable_food_ {food_->closest_food(current_location_, max_visable_distace_)}
-    , last_food_eaten_ {std::nullopt}
-    , food_request_id_ {0}
+    : food_ {init_food}
 { }
 
-evo_sim::Creature::Creature(const Creature& other)
-    : id_ {other.id_}
-    , energy_ {other.energy_}
-    , current_location_ {other.current_location_}
-    , next_location_ {other.next_location_}
-    , food_ {other.food_}
-    , closest_visable_food_ {other.closest_visable_food_}
-    , last_food_eaten_ {other.last_food_eaten_}
-    , food_request_id_ {other.food_request_id_}
-{ }
+// evo_sim::Creature::Creature(const Creature& other)
+//     : creatures_ {other.creatures_}
+//     , food_ {other.food_}
+// { }
 
-evo_sim::Creature::Creature(Creature&& other)
-    : id_ {other.id_}
-    , energy_ {other.energy_}
-    , current_location_ {other.current_location_}
-    , next_location_ {other.next_location_}
-    , food_ {other.food_}
-    , closest_visable_food_ {other.closest_visable_food_}
-    , last_food_eaten_ {other.last_food_eaten_}
-    , food_request_id_ {other.food_request_id_}
-{
-    other.food_ = nullptr;
+// evo_sim::Creature::Creature(Creature&& other)
+//     : creatures_ {other.creatures_}
+//     , food_ {other.food_}
+// {
+//     other.food_ = nullptr;
+// }
+
+void evo_sim::Creature::add_creature(uint16_t id, float init_energy, point init_location) {
+    features new_creature_feats = {
+        id,
+        init_energy,
+        8,
+        4,
+        init_location,
+        std::nullopt,
+        std::nullopt,
+        0
+    };
+
+    creatures_.emplace(init_location, new_creature_feats);
 }
 
 void evo_sim::Creature::perform_day_actions() {   
-    energy_ -= 1.5; // TODO - make this a function of max_visable_distance_
-    closest_visable_food_ = food_->closest_food(current_location_, max_visable_distace_);
-    update_location();
+    auto iter = creatures_.begin();
+    while (iter != creatures_.end()) {
+        iter->second.energy -= 1.5; // TODO - make this a function of max_visable_distance_
+        iter->second.closest_visable_food = food_->closest_food(
+            iter->first,
+            iter->second.max_visable_distace
+        );
+        ++iter;
+        //update_location();
+    }
 }
 
 void evo_sim::Creature::update_energy() {
@@ -76,11 +79,4 @@ void evo_sim::Creature::update_location() {
         last_food_eaten_ = closest_visable_food_;
         energy_ += 1;
     }
-}
-
-std::optional<evo_sim::point> evo_sim::Creature::last_food_eaten() {
-    if (!last_food_eaten_.has_value()) { return std::nullopt; }
-    evo_sim::point food = last_food_eaten_.value();
-    last_food_eaten_ = std::nullopt;
-    return food;
 }

@@ -9,7 +9,7 @@ evo_sim::World::World()
 {
     uint16_t creaure_count = rand_.random_between(min_init_creatures_, max_init_creatures_);
     for (uint16_t i=0; i<creaure_count; i++) {
-        creatures_.push_back(Creature{i, 10.0, &food_, rand_.random_point()});
+        creatures_.add_creature(i, 10.0, rand_.random_point());
     }
 }
 

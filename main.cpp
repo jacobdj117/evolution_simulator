@@ -7,7 +7,7 @@ int main() {
     evo_sim::Logger logger(&world);
 
     logger.log_world_state();
-    while (world.creatures().size() > 0) {
+    while (world.creatures()->count() > 0) {
         world.update_state();
         logger.log_world_state();
     }
