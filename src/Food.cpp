@@ -11,22 +11,26 @@ evo_sim::Food::Food(Evo_Random* init_rand)
     , new_food_period_ {3}
     , new_food_timer_ {0}
 {
-    std::cout << "food ctor" << std::endl;
     create_food(min_init_food_, max_init_food_);
-    std::cout << "end food ctor" << std::endl;
 }
 
 uint16_t evo_sim::Food::request(point location) {
     if (food_pieces_.count(location) == 0) { return 0; }
+    std::cout << "pre inc: " << food_pieces_[location] << "\n";
     return ++food_pieces_[location];
 }
 
 float evo_sim::Food::get_energy(point location, uint16_t id) {
+    // No food at location
     if (food_pieces_.count(location) == 0) { return 0.0; }
 
     food_eaten_.push(location);
 
-    if (food_pieces_[location] == 1) { return energy_; }
+    // Only one creature trying to eat the food
+    if (food_pieces_[location] == 1) {
+        std::cout << "single request: \n";
+        return energy_;
+    }
 
     uint32_t portions = triangular_number(food_pieces_[location]);
     float portion_size = energy_ / portions;

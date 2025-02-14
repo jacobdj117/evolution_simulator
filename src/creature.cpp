@@ -4,6 +4,8 @@
 #include "evo_math.h"
 #include "creature.h"
 
+#include <iostream>
+
 evo_sim::Creature::Creature(Food* init_food)
     : food_ {init_food}
 { }
@@ -54,7 +56,9 @@ void evo_sim::Creature::update_energy() {
         uint16_t id = creature.second.food_request_id;
 
         if (id > 0) { 
+            std::cout << "id: " << id;
             float energy = food_->get_energy(creature.first, id);
+            std::cout << " energy: " << energy << std::endl;
             creatures_[key].energy += energy;
         }
 
@@ -62,15 +66,15 @@ void evo_sim::Creature::update_energy() {
             to_erase_.push(key);
         }
     }
+
+    std::cout << "\n";
 }
 
-void evo_sim::Creature::move(point key) {
-    update_next_location(key);
-    
+void evo_sim::Creature::move(point key) {    
     float distance_traveled = update_next_location(key);
     if (distance_traveled == 0.0) { return; }
 
-    creatures_[key].energy -= 0.5 * distance_traveled;
+    creatures_[key].energy -= 0.2 * distance_traveled;
     
     creatures_.emplace(creatures_[key].next_location, creatures_[key]);
     to_erase_.push(key);
@@ -96,7 +100,7 @@ float evo_sim::Creature::update_next_location(point key) {
         creatures_[key].food_request_id = 0;
     } else {
         creatures_[key].next_location = target_food;
-        creatures_[key].food_request_id = food_->request(creatures_[key].next_location);
+        creatures_[key].food_request_id = food_->request(target_food);
     }
 
     return distance(key, creatures_[key].next_location);
