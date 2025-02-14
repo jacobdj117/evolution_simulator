@@ -23,6 +23,11 @@ void evo_sim::Creature::add_creature(uint16_t id, float init_energy, point init_
     creatures_.emplace(init_location, new_creature_feats);
 }
 
+std::optional<evo_sim::Creature::features> evo_sim::Creature::creature_at(point location) {
+    if (creatures_.count(location) == 0) { return std::nullopt; }
+    return creatures_[location];
+}
+
 void evo_sim::Creature::perform_day_actions() {
     for (std::pair<point, features> creature : creatures_) {
         perform_day_action(creature.first);

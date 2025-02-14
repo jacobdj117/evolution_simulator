@@ -29,7 +29,7 @@ public:
     void add_creature(uint16_t id, float init_energy, point init_location);
     void perform_day_actions();
     
-    features creature_at(point location) { return creatures_[location]; }
+    std::optional<features> creature_at(point location);
     uint16_t count() { return creatures_.size(); }
 
 private:
