@@ -16,5 +16,5 @@ evo_sim::World::World()
 
 void evo_sim::World::update_state() {
     creatures_.perform_day_actions();
-    food_.remove_eaten_food();
+    food_.perform_day_actions();
 }

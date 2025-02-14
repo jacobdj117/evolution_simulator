@@ -15,6 +15,8 @@ private:
     static constexpr float energy_ = 8.0;
     static constexpr uint16_t min_init_food_ = 15;
     static constexpr uint16_t max_init_food_ = 30;
+    uint16_t new_food_period_;
+    uint16_t new_food_timer_;
 
     // Key is the food's location in the world.  Value is the number of creatures trying to eat the food.
     std::map<point, uint16_t> food_pieces_;
@@ -22,6 +24,10 @@ private:
     std::unique_ptr<Evo_Random> rand_;
 
     std::queue<point> food_eaten_;
+
+    void remove_eaten_food();
+
+    void create_food(uint16_t count_min, uint16_t count_max);
 
 public:
     Food(Evo_Random* init_rand);
@@ -38,8 +44,9 @@ public:
     float get_energy(point location, uint16_t id);
 
     std::optional<point> closest_food(point ref, uint16_t max_visable_disatnce);
-    void remove_eaten_food();
+    
     bool is_food(point ref);
+    void perform_day_actions();
 }; // End class Food
 
 }; // End namespace evo_sim
