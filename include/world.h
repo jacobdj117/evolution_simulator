@@ -17,7 +17,7 @@ private:
     static constexpr uint16_t min_init_creatures_ = 10;
     static constexpr uint16_t max_init_creatures_ = 20;
 
-    std::vector<Creature> creatures_;
+    Creature creatures_;
     Evo_Random rand_;
     Food food_;
 
@@ -28,10 +28,10 @@ public:
 
     void update_state();
 
-    std::vector<Creature> creatures() { return creatures_; }
-    Food* food()                      { return &food_; }
-    uint16_t width()                  { return width_; }
-    uint16_t height()                 { return height_; }
+    Creature* creatures() { return &creatures_; }
+    Food* food()          { return &food_; }
+    uint16_t width()      { return width_; }
+    uint16_t height()     { return height_; }
 
 }; // End class World
 
