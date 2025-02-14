@@ -4,21 +4,9 @@
 #include "evo_math.h"
 #include "creature.h"
 
-evo_sim::Creature::Creature(uint16_t init_id, float init_energy, Food* init_food, point init_location)
+evo_sim::Creature::Creature(Food* init_food)
     : food_ {init_food}
 { }
-
-// evo_sim::Creature::Creature(const Creature& other)
-//     : creatures_ {other.creatures_}
-//     , food_ {other.food_}
-// { }
-
-// evo_sim::Creature::Creature(Creature&& other)
-//     : creatures_ {other.creatures_}
-//     , food_ {other.food_}
-// {
-//     other.food_ = nullptr;
-// }
 
 void evo_sim::Creature::add_creature(uint16_t id, float init_energy, point init_location) {
     features new_creature_feats = {
@@ -38,7 +26,11 @@ void evo_sim::Creature::add_creature(uint16_t id, float init_energy, point init_
 void evo_sim::Creature::perform_day_actions() {
     for (std::pair<point, features> creature : creatures_) {
         perform_day_action(creature.first);
-    } 
+    }
+    clean();
+
+    update_energy();
+    clean();
 }
 
 void evo_sim::Creature::perform_day_action(point key) {
@@ -51,6 +43,21 @@ void evo_sim::Creature::perform_day_action(point key) {
     move(key);
 }
 
+void evo_sim::Creature::update_energy() {
+    for (std::pair<point, features> creature : creatures_) {
+        point key = creature.first;
+        uint16_t id = creature.second.food_request_id;
+        if (id == 0) { continue; }
+
+        float energy = food_->get_energy(creature.first, id);
+        creatures_[key].energy -= energy;
+
+        if (creatures_[key].energy <= 0.0) {
+            to_erase_.push(key);
+        }
+    }
+}
+
 void evo_sim::Creature::move(point key) {
     update_next_location(key);
     
@@ -60,12 +67,13 @@ void evo_sim::Creature::move(point key) {
     creatures_[key].energy -= 0.5 * distance_traveled;
     
     creatures_.emplace(creatures_[key].next_location, creatures_[key]);
-    creatures_.erase(key);
+    to_erase_.push(key);
 }
 
 float evo_sim::Creature::update_next_location(point key) {
     if (!creatures_[key].closest_visable_food.has_value()) { 
         creatures_[key].next_location = key;
+        creatures_[key].food_request_id = 0;
         return 0.0;
     }
 
@@ -79,10 +87,18 @@ float evo_sim::Creature::update_next_location(point key) {
         float distance_ratio = speed / distance_to_food;
         creatures_[key].next_location.first = key.first + (x_dif * distance_ratio);
         creatures_[key].next_location.second = key.second + (y_dif * distance_ratio);
+        creatures_[key].food_request_id = 0;
     } else {
         creatures_[key].next_location = target_food;
         creatures_[key].food_request_id = food_->request(creatures_[key].next_location);
     }
 
     return distance(key, creatures_[key].next_location);
+}
+
+void evo_sim::Creature::clean() {
+    while (!to_erase_.empty()) {
+        creatures_.erase(to_erase_.front());
+        to_erase_.pop();
+    }
 }

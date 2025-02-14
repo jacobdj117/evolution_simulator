@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <queue>
 
 #include "food.h"
 #include "types.h"
@@ -22,20 +23,8 @@ public:
         uint16_t food_request_id;
     };
 
-    Creature(uint16_t init_id, float init_energy, Food* init_food, point init_location);
-    // Creature(const Creature& other);
-    // Creature(Creature&& other);
+    Creature(Food* init_food);
     ~Creature() = default;
-
-    Creature& operator=(const Creature& other) {
-        if (this == &other) { return *this; }
-
-        return *this;
-    }
-
-    // bool operator==(const Creature& other) {
-    //     return creatures_ == other.creatures_;
-    // }
 
     void add_creature(uint16_t id, float init_energy, point init_location);
     void perform_day_actions();
@@ -46,10 +35,13 @@ public:
 private:
     std::map<point, features> creatures_;
     std::unique_ptr<Food> food_;
+    std::queue<point> to_erase_;
 
     void perform_day_action(point key);
     void move(point key);
     float update_next_location(point key);
+    void update_energy();
+    void clean();
 
 }; // End class Creature
 
