@@ -74,7 +74,7 @@ void evo_sim::Creature::move(point key) {
     float distance_traveled = update_next_location(key);
     if (distance_traveled == 0.0) { return; }
 
-    creatures_[key].energy -= 0.2 * distance_traveled;
+    creatures_[key].energy -= 0.01 * distance_traveled;
     
     creatures_.emplace(creatures_[key].next_location, creatures_[key]);
     to_erase_.push(key);

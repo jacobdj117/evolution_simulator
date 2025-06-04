@@ -12,7 +12,7 @@ namespace evo_sim {
 
 class Food {
 private:
-    static constexpr float energy_ = 8.0;
+    static constexpr float energy_ = 9.0;
     static constexpr uint16_t min_init_food_ = 15;
     static constexpr uint16_t max_init_food_ = 30;
     uint16_t new_food_period_;
